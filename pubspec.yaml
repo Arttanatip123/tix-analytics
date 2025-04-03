@@ -11,7 +11,7 @@ dependencies:
     sdk: flutter
   sentry: ^8.14.1
   device_info: ^2.0.0
-  firebase_analytics: ^10.0.6
+  firebase_analytics: ^11.4.5
   mixpanel_flutter: ^2.3.4
   facebook_app_events: ^0.19.6
   http: ^1.0.0
