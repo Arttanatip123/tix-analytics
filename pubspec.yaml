@@ -4,19 +4,17 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: ">=2.16.0 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  sentry: ^6.22.0
+  sentry: ^8.14.1
   device_info: ^2.0.0
   firebase_analytics: ^10.0.6
-  flutuate_mixpanel: ^1.1.8
-  facebook_app_events:
-    git:
-      url : https://github.com/AsUnDeRz/flutter_facebook_app_events.git
-      ref : master
+  mixpanel_flutter: ^2.3.4
+  facebook_app_events: ^0.19.6
+  http: ^1.0.0
 
 
 dev_dependencies:

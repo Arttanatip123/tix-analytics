@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:tix_analytics/tix.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -10,14 +8,43 @@ class Page2 extends StatefulWidget {
 }
 
 class _Page2State extends State<Page2> with Tix {
-  WebViewController _controller;
+  late WebViewController _controller;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            // คุณสามารถตรวจสอบความคืบหน้าการโหลดได้ที่นี่
+          },
+          onPageStarted: (String url) {
+            print("Page Started: $url");
+          },
+          onPageFinished: (String url) {
+            print("Page Finished: $url");
+          },
+          onHttpError: (HttpResponseError error) {
+            print("HTTP Error: ${error.response}");
+          },
+          onWebResourceError: (WebResourceError error) {
+            print("WebResource Error: ${error.description}");
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse('https://alpha-api.bluedragonlottery.cloud/poc/webview'));
+
+    _controller.addJavaScriptChannel(
+        'messageHandler',
+        onMessageReceived: (message){
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(message.message)),
+          );
+        },
+    );
   }
 
   @override
@@ -25,26 +52,13 @@ class _Page2State extends State<Page2> with Tix {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(title: Text('Webview')),
-      body: WebView(
-        initialUrl: 'https://alpha-api.bluedragonlottery.cloud/poc/webview',
-        javascriptMode: JavascriptMode.unrestricted,
-        javascriptChannels: Set.from([
-          JavascriptChannel(
-              name: 'messageHandler',
-              onMessageReceived: (JavascriptMessage message) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(message.message)),
-                );
-              })
-        ]),
-        onWebViewCreated: (WebViewController webviewController) {
-          _controller = webviewController;
-        },
+      body: WebViewWidget(
+        controller: _controller,
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.arrow_upward),
         onPressed: () {
-          _controller.evaluateJavascript('fromFlutter("From Flutter")');
+          _controller.runJavaScript('fromFlutter("From Flutter")');
         },
       ),
     );
