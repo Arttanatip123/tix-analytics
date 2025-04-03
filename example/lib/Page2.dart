@@ -32,7 +32,9 @@ class _Page2State extends State<Page2> with Tix {
           JavascriptChannel(
               name: 'messageHandler',
               onMessageReceived: (JavascriptMessage message) {
-                _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message.message)));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(message.message)),
+                );
               })
         ]),
         onWebViewCreated: (WebViewController webviewController) {

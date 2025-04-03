@@ -4,14 +4,14 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.16.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   sentry: ^6.22.0
   device_info: ^2.0.0
-  firebase_analytics: ^8.0.3
+  firebase_analytics: ^10.0.6
   flutuate_mixpanel: ^1.1.8
   facebook_app_events:
     git:
