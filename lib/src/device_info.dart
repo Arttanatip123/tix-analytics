@@ -6,7 +6,7 @@
 
 import 'dart:io';
 
-import 'package:device_info/device_info.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 Future<Map<String, String>> mapperDeviceInfo(DeviceInfoPlugin deviceInfoPlugin) async {
   final deviceInfo = Platform.isAndroid
@@ -21,7 +21,7 @@ Map<String, String> _readIosDeviceInfo(IosDeviceInfo data) {
     'systemName': data.systemName,
     'systemVersion': data.systemVersion,
     'model': data.model,
-    'identifierForVendor': data.identifierForVendor,
+    'identifierForVendor': data.identifierForVendor ?? '',
     'isPhysicalDevice': data.isPhysicalDevice.toString(),
     'platform': 'ios'
   };
@@ -39,7 +39,6 @@ Map<String, String> _readAndroidBuildData(AndroidDeviceInfo build) {
     'manufacturer': build.manufacturer,
     'model': build.model,
     'isPhysicalDevice': build.isPhysicalDevice.toString(),
-    'androidId': build.androidId,
     'platform': 'android'
   };
 }
